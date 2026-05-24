@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "3951a2c8-6ff7-49e4-a297-97cd321c07d2"
+				"spark.autotune.trackingId": "717f0083-d22a-4dcb-abcf-ce395bf00fbb"
 			}
 		},
 		"metadata": {
@@ -91,6 +91,94 @@
 					"print(\"data writen successfully\")"
 				],
 				"execution_count": 7
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"collapsed": false
+				},
+				"source": [
+					"from pyspark.sql.functions import * \n",
+					"from pyspark.sql.types import * \n",
+					"\n",
+					"sales_df = spark.read.format(\"csv\")\\\n",
+					"                    .option(\"header\", \"true\")\\\n",
+					"                    .option(\"inferschema\", \"true\")\\\n",
+					"                    .load(\"abfss://retail-data@ecommdevstorage123.dfs.core.windows.net/sales/*\")\n",
+					"display(sales_df)\n",
+					""
+				],
+				"execution_count": 9
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"collapsed": false
+				},
+				"source": [
+					"bronze_df = sales_df\\\n",
+					"            .withColumn(\"file_path\", input_file_name())\\\n",
+					"            .withColumn(\"last_update_ts\", current_timestamp())\n",
+					"            \n",
+					"display(bronze_df)"
+				],
+				"execution_count": 11
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"bronze_df.write.format(\"delta\") \\\n",
+					"                .mode(\"overwrite\") \\\n",
+					"                .option(\"overwriteSchema\", \"true\")\\\n",
+					"                .save(\"abfss://bronze@ecommdevstorage123.dfs.core.windows.net/sales\")\n",
+					"                \n",
+					"print(\"data writen successfully\")"
+				],
+				"execution_count": 12
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"collapsed": false
+				},
+				"source": [
+					"from pyspark.sql.functions import * \n",
+					"from pyspark.sql.types import * \n",
+					"\n",
+					"sales_orders_df = spark.read.format(\"csv\")\\\n",
+					"                    .option(\"header\", \"true\")\\\n",
+					"                    .option(\"inferschema\", \"true\")\\\n",
+					"                    .load(\"abfss://retail-data@ecommdevstorage123.dfs.core.windows.net/sales_orders/*\")\n",
+					"display(sales_orders_df)\n",
+					""
+				],
+				"execution_count": 10
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"collapsed": false
+				},
+				"source": [
+					"bronze_df = sales_orders_df\\\n",
+					"            .withColumn(\"file_path\", input_file_name())\\\n",
+					"            .withColumn(\"last_update_ts\", current_timestamp())\n",
+					"            \n",
+					"display(bronze_df)"
+				],
+				"execution_count": 13
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"bronze_df.write.format(\"delta\") \\\n",
+					"                .mode(\"overwrite\") \\\n",
+					"                .option(\"overwriteSchema\", \"true\")\\\n",
+					"                .save(\"abfss://bronze@ecommdevstorage123.dfs.core.windows.net/sales_orders\")\n",
+					"                \n",
+					"print(\"data writen successfully\")"
+				],
+				"execution_count": 14
 			}
 		]
 	}
