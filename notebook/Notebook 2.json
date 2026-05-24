@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "ff7cfa6f-8c53-4642-a854-a7bf94a19022"
+				"spark.autotune.trackingId": "3951a2c8-6ff7-49e4-a297-97cd321c07d2"
 			}
 		},
 		"metadata": {
@@ -87,6 +87,7 @@
 					"                .mode(\"overwrite\") \\\n",
 					"                .option(\"overwriteSchema\", \"true\")\\\n",
 					"                .save(\"abfss://bronze@ecommdevstorage123.dfs.core.windows.net/customers\")\n",
+					"                \n",
 					"print(\"data writen successfully\")"
 				],
 				"execution_count": 7
