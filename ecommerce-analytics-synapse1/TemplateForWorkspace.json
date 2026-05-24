@@ -146,26 +146,6 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('workspaceName'), '/SQL script 1')]",
-			"type": "Microsoft.Synapse/workspaces/sqlscripts",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"content": {
-					"query": "CREATE EXTERNAL DATA SOURCE bronze\nWITH (\n   LOCATION = 'https://ecommdevstorage123.blob.core.windows.net/bronze/' \n)\n\n\n\nCREATE EXTERNAL FILE FORMAT DeltaFormat\nWITH(\n    FORMAT_TYPE = DELTA\n)\n\n\n\nCREATE EXTERNAL FILE FORMAT DeltaFormat\nWITH(\n    FORMAT_TYPE = DELTA\n)\n\nCREATE EXTERNAL TABLE dbo.customers\n(\n    customer_id       INT NULL,\n    tax_id            FLOAT NULL,\n    tax_code          NVARCHAR(50) NULL,\n    customer_name     NVARCHAR(200) NULL,\n    state             NVARCHAR(100) NULL,\n    city              NVARCHAR(100) NULL,\n    postcode          NVARCHAR(20) NULL,\n    street            NVARCHAR(200) NULL,\n    number            NVARCHAR(20) NULL,\n    unit              NVARCHAR(50) NULL,\n    region            NVARCHAR(100) NULL,\n    district          NVARCHAR(100) NULL,\n    lon               FLOAT NULL,\n    lat               FLOAT NULL,\n    ship_to_address   NVARCHAR(300) NULL,\n    valid_from        INT NULL,\n    valid_to          FLOAT NULL,\n    units_purchased   INT NULL,\n    loyalty_segment   INT NULL,\n    file_path         NVARCHAR(500) NULL,\n    last_updated_ts   DATETIME NULL\n)\nWITH (\n    LOCATION = 'customers/',\n    DATA_SOURCE = bronze,\n    FILE_FORMAT = DeltaFormat\n)\n\n\n\n\n\n--------------------\n\nCREATE EXTERNAL TABLE dbo.sales\n(\n    customer_id       INT NULL,\n    customer_name     NVARCHAR(200) NULL,\n    product_name      NVARCHAR(200) NULL,\n    order_date        DATE NULL,\n    product_category  NVARCHAR(100) NULL,\n    product           NVARCHAR(200) NULL,\n    total_price       INT NULL,\n    last_update_ts    DATETIME NULL,\n    file_path         NVARCHAR(500) NULL\n)\nWITH (\n    LOCATION = 'sales/',\n    DATA_SOURCE = bronze_source,\n    FILE_FORMAT = DeltaFormat\n);\n\n------------------------\n\nCREATE EXTERNAL TABLE dbo.sales_orders\n(\n    clicked_items         NVARCHAR(500) NULL,\n    customer_id           INT NULL,\n    customer_name         NVARCHAR(200) NULL,\n    number_of_line_items  INT NULL,\n    order_datetime        FLOAT NULL,\n    order_number          INT NULL,\n    ordered_products      NVARCHAR(500) NULL,\n    promo_info            NVARCHAR(500) NULL,\n    last_update_ts        DATETIME NULL,\n    file_path             NVARCHAR(500) NULL\n)\nWITH (\n    LOCATION = 'sales_orders/',\n    DATA_SOURCE = bronze,\n    FILE_FORMAT = DeltaFormat\n);",
-					"metadata": {
-						"language": "sql"
-					},
-					"currentConnection": {
-						"databaseName": "master",
-						"poolName": "Built-in"
-					},
-					"resultLimit": 5000
-				},
-				"type": "SqlQuery"
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('workspaceName'), '/SQL_database_bronze')]",
 			"type": "Microsoft.Synapse/workspaces/sqlscripts",
 			"apiVersion": "2019-06-01-preview",
@@ -206,7 +186,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "78b372fe-5fed-40f8-bcfd-4b96791e7037"
+						"spark.autotune.trackingId": "472313fe-edf6-4b95-a6ab-6c8738be384d"
 					}
 				},
 				"metadata": {
